@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طاولة 4</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+            padding: 20px;
+            background-color: #007bff;
+            color: white;
+            margin: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+
+        .button-group {
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            width: 200px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-group h3 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        button {
+            display: block;
+            width: 90%;
+            margin: 5px auto;
+            padding: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #textbox {
+            display: block;
+            width: 90%;
+            margin: 20px auto;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #fff;
+            resize: none;
+        }
+
+        #controls {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .control-button {
+            margin: 0 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .control-button:hover {
+            background-color: #e60000;
+        }
+
+        /* Responsive Styles */
+        @media only screen and (max-width: 768px) {
+            .button-group {
+                width: 45%;
+            }
+        }
+
+        @media only screen and (max-width: 480px) {
+            h2 {
+                font-size: 24px;
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px;
+            }
+
+            #textbox {
+                font-size: 14px;
+                padding: 8px;
+            }
+
+            .button-group {
+                width: 100%;
+            }
+
+            .control-button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+    <script>
+        const tableName = "طاولة 4"; // Unique for this page
+
+        // Function to handle button clicks
+        function handleButtonClick(name) {
+            // Retrieve the stored click counts from localStorage for this specific table
+            let counts = JSON.parse(localStorage.getItem(tableName)) || {};
+            
+            // Increment the count for the clicked button
+            if (counts[name]) {
+                counts[name]++;
+            } else {
+                counts[name] = 1;
+            }
+
+            // Store the updated counts in localStorage
+            localStorage.setItem(tableName, JSON.stringify(counts));
+
+            // Update the textbox with new content
+            updateTextBox();
+        }
+
+        // Function to update the text box with the current counts
+        function updateTextBox() {
+            let counts = JSON.parse(localStorage.getItem(tableName)) || {};
+            let output = '';
+            for (let name in counts) {
+                output += `${name} (${counts[name]})\n`;
+            }
+            document.getElementById('textbox').value = output;
+        }
+
+        // Function to clear the entire textbox
+        function clearAll() {
+            localStorage.removeItem(tableName);
+            document.getElementById('textbox').value = '';
+        }
+
+        // Function to remove selected text from the textbox
+        function clearSelectedText() {
+            let textbox = document.getElementById('textbox');
+            let selectedText = textbox.value.substring(textbox.selectionStart, textbox.selectionEnd);
+            let counts = JSON.parse(localStorage.getItem(tableName)) || {};
+
+            // Remove the selected text from localStorage counts
+            for (let name in counts) {
+                if (selectedText.includes(name)) {
+                    delete counts[name];
+                }
+            }
+
+            // Update localStorage and the textbox
+            localStorage.setItem(tableName, JSON.stringify(counts));
+            updateTextBox();
+        }
+
+        // Load the counts when the page loads
+        window.onload = function() {
+            updateTextBox();
+        }
+    </script>
+</head>
+<body>
+
+    <h2>طاولة 4</h2>
+
+    <!-- Textbox to display the counts -->
+    <textarea id="textbox" rows="10" readonly></textarea>
+
+    <!-- Divs for buttons -->
+    <div class="container">
+        <!-- First Div with 5 buttons -->
+        <div class="button-group">
+            <h3>نراكيل</h3>
+            <button onclick="handleButtonClick('نركيلة ليمون')">نركيله ليمون</button>
+            <button onclick="handleButtonClick('نركيلة علج')">نركيلة علج</button>
+            <button onclick="handleButtonClick('نركيلة تفاحتين')">نركيله تفاحتين</button>
+            <button onclick="handleButtonClick('نركيلا خلطة')">نركيله خلطة</button>
+            <button onclick="handleButtonClick('نركيلة انكليزي')">نركيله انكليزي</button>
+        </div>
+
+        <!-- Second Div with 10 buttons -->
+        <div class="button-group">
+            <h3>مشروبات</h3>
+            <button onclick="handleButtonClick('بيرة ايفيس')">بيرة ايفيس</button>
+            <button onclick="handleButtonClick('بيرة توبورك')">بيرة توبورك</button>
+            <button onclick="handleButtonClick('بيرة ريم')">بيرة ريم</button>
+            <button onclick="handleButtonClick('عرق بلوميري')">عرق بلوميري</button>
+            <button onclick="handleButtonClick('عرق اوزو')">عرق اوزو</button>
+            <button onclick="handleButtonClick('يسكي شيفاز')">ويسكي شيفاز</button>
+            <button onclick="handleButtonClick('ويسكي ريد ليبل')">ويسكي ريد ليبل</button>
+            <button onclick="handleButtonClick('ويسكي بلوليبل')">ويسكي بلوليبل</button>
+            <button onclick="handleButtonClick('بيك عرق بلوميري')">عرق بلوميري بيك</button>
+            <button onclick="handleButtonClick('بيك عرق اوزو')">عرق اوزو بيك</button>
+        </div>
+
+        <!-- Third Div with 10 buttons -->
+        <div class="button-group">
+            <h3>مقبلات</h3>
+            <button onclick="handleButtonClick('زلاطة عادي')">زلاطة عادي</button>
+            <button onclick="handleButtonClick('زلاطة فتوش')">زلاطة فتوش</button>
+            <button onclick="handleButtonClick('تبولة')">تبولة</button>
+            <button onclick="handleButtonClick('باكلا')">باكلا</button>
+            <button onclick="handleButtonClick('لبلبي')">لبلبي</button>
+            <button onclick="handleButtonClick('حمص بطحينة')">حمص بطحينه</button>
+            <button onclick="handleButtonClick('باباغنوج')">باباغنوج</button>
+            <button onclick="handleButtonClick('صحن خضروات')">صحن خضروات</button>
+            <button onclick="handleButtonClick('صحن فواكه')">صحن فواكه</button>
+        </div>
+
+        <div class="button-group">
+            <h3>اكلات</h3>
+            <button onclick="handleButtonClick('تكة لحم')">تكه دجاج</button>
+            <button onclick="handleButtonClick('تكة دجاج')">تكة لحم</button>
+            <button onclick="handleButtonClick('كباب لحم')">كباب لحم</button>
+            <button onclick="handleButtonClick('كباب دجاج')">كباب دجاج</button>
+            <button onclick="handleButtonClick('مسكوف')">مسكوف</button>
+            <button onclick="handleButtonClick('مشويات مشكل')">مشويات مشكل</button>
+        </div>
+        <div id="controls">
+            <!-- Button to clear all content in the textbox -->
+            <button class="control-button" onclick="clearAll()">Clear All</button>
+        
+            <!-- Button to clear selected text from the textbox -->
+            <button class="control-button" onclick="clearSelectedText()">Clear Selected</button>
+        </div>
+   
